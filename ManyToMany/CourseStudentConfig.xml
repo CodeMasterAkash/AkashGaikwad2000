@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean class="com.jspiders.ManyToMany.bean.CourseBean">
+		<property name="courses">
+			<list>
+				<bean name="course1">
+					<property name="id" value="1" />
+					<property name="name" value="SQL" />
+					<property name="fees" value="10000" />
+				</bean>
+				<bean name="course2">
+					<property name="id" value="2" />
+					<property name="name" value="Java" />
+					<property name="fees" value="15000" />
+				</bean>
+
+				<bean class="com.jspiders.ManyToMany.bean.StudentBean">
+					<property name="students">
+						<list>
+							<bean name="student1">
+								<property name="id" value="1" />
+								<property name="name" value="Akash" />
+								<property name="email" value="akash@gmail.com" />
+								<property name="address" value="Pune" />
+							</bean>
+							<bean name="student2">
+								<property name="id" value="2" />
+								<property name="name" value="Yuvraj" />
+								<property name="email" value="yuvraj@gmail.com" />
+								<property name="address" value="Pune" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>
