@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean class="com.jspiders.springcore1.bean.PersonBean"
+		name="person1">
+		<property name="id" value="1" />
+		<property name="name" value="Yuvraj" />
+		<property name="aadhar" ref="aadhar1" />
+	</bean>
+
+	<bean class="com.jspiders.springcore1.bean.AadharBean"
+		name="aadhar1">
+		<constructor-arg name="id" value="1" />
+		<constructor-arg name="aadharNo" value="422571958470" />
+	</bean>
+
+</beans>
