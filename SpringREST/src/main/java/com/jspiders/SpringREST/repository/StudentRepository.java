@@ -1,4 +1,4 @@
-package com.jspiders.springmvc.repository;
+package com.jspiders.SpringREST.repository;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
-import com.jspiders.springmvc.pojo.StudentPOJO;
+import com.jspiders.SpringREST.pojo.StudentPOJO;
 
 @Repository
 public class StudentRepository {
@@ -21,7 +21,7 @@ public class StudentRepository {
 	private static Query query;
 
 	private static void openConnection() {
-		factory = Persistence.createEntityManagerFactory("mvc");
+		factory = Persistence.createEntityManagerFactory("REST");
 		manager = factory.createEntityManager();
 		transaction = manager.getTransaction();
 	}
@@ -40,15 +40,9 @@ public class StudentRepository {
 		}
 	}
 
-	public StudentPOJO addStudent(String name, String email, long contact, String address) {
+	public StudentPOJO addStudent(StudentPOJO pojo) {
 		openConnection();
 		transaction.begin();
-
-		StudentPOJO pojo = new StudentPOJO();
-		pojo.setName(name);
-		pojo.setEmail(email);
-		pojo.setContact(contact);
-		pojo.setAddress(address);
 
 		manager.persist(pojo);
 
@@ -61,20 +55,22 @@ public class StudentRepository {
 		openConnection();
 		transaction.begin();
 
-		StudentPOJO pojo = manager.find(StudentPOJO.class, id);
+		StudentPOJO student = manager.find(StudentPOJO.class, id);
 
 		transaction.commit();
 		closeConnection();
-		return pojo;
+		return student;
 	}
 
-	public List<StudentPOJO> findAllStudents() {
+	public List<StudentPOJO> searchAllStudents() {
 		openConnection();
 		transaction.begin();
+
 		String jpql = "from StudentPOJO";
 		query = manager.createQuery(jpql);
 		@SuppressWarnings("unchecked")
 		List<StudentPOJO> students = query.getResultList();
+
 		transaction.commit();
 		closeConnection();
 		return students;
@@ -84,31 +80,34 @@ public class StudentRepository {
 		openConnection();
 		transaction.begin();
 
-		StudentPOJO pojo = manager.find(StudentPOJO.class, id);
-		if (pojo != null) {
-			manager.remove(pojo);
+		StudentPOJO student = manager.find(StudentPOJO.class, id);
+		if (student != null) {
+			manager.remove(student);
+			transaction.commit();
+			closeConnection();
+			return student;
 		}
 
 		transaction.commit();
 		closeConnection();
-		return pojo;
+		return null;
 	}
 
-	public StudentPOJO updateStudent(int id, String name, String email, long contact, String address) {
+	public StudentPOJO updateStudent(StudentPOJO pojo) {
 		openConnection();
 		transaction.begin();
 
-		StudentPOJO pojo = manager.find(StudentPOJO.class, id);
-		pojo.setName(name);
-		pojo.setEmail(email);
-		pojo.setContact(contact);
-		pojo.setAddress(address);
+		StudentPOJO student = manager.find(StudentPOJO.class, pojo.getId());
+		student.setName(pojo.getName());
+		student.setEmail(pojo.getEmail());
+		student.setContact(pojo.getContact());
+		student.setAddress(pojo.getAddress());
 
-		manager.persist(pojo);
+		manager.persist(student);
 
 		transaction.commit();
 		closeConnection();
-		return pojo;
+		return student;
 	}
 
 }
